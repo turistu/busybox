@@ -68,6 +68,13 @@ extern int capget(cap_user_header_t header, const cap_user_data_t data);
 # define MS_MOVE     8192
 #endif
 
+#ifndef CAP_TO_INDEX
+#define CAP_TO_INDEX(x) ((x) >> 5)
+#endif
+#ifndef CAP_TO_MASK
+#define CAP_TO_MASK(x) (1 << ((x) & 31))
+#endif
+
 static void delete_contents(const char *directory, dev_t rootdev);
 
 static int FAST_FUNC rmrf(const char *directory, struct dirent *d, void *rootdevp)

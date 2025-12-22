@@ -398,7 +398,7 @@ char *yescrypt_r(
 		goto fail;
  ret:
 	free_region(yctx->local);
-	explicit_bzero(&u, sizeof(u));
+	bzero(&u, sizeof(u));
 	return buf;
  fail:
 	buf = NULL;

@@ -45,7 +45,7 @@
 #include <sys/file.h>
 
 /* Fix up glibc <= 2.24 not having getrandom() */
-#if defined(__GLIBC__) && __GLIBC__ == 2 && __GLIBC_MINOR__ <= 24
+#if defined(__GLIBC__) && __GLIBC__ == 2 && __GLIBC_MINOR__ <= 24 || defined __ANDROID__
 #include <sys/syscall.h>
 static ssize_t getrandom(void *buffer, size_t length, unsigned flags)
 {

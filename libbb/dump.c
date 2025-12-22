@@ -344,7 +344,7 @@ static void do_skip(priv_dumper_t *dumper, const char *fname)
 		dumper->pub.address += sbuf.st_size;
 		return;
 	}
-	if (fseeko(stdin, dumper->pub.dump_skip, SEEK_SET)) {
+	if (fseek(stdin, dumper->pub.dump_skip, SEEK_SET)) {
 		bb_simple_perror_msg_and_die(fname);
 	}
 	dumper->pub.address += dumper->pub.dump_skip;

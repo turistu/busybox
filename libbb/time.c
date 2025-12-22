@@ -7,6 +7,10 @@
  * Licensed under GPLv2, see file LICENSE in this source tree.
  */
 #include "libbb.h"
+#ifdef OLD_ANDROID
+#include <time64.h>
+#define timegm	timegm64
+#endif
 
 /* Returns 0 if the time structure contains an absolute UTC time which
  * should not be subject to DST adjustment by the caller. */

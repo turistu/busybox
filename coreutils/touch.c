@@ -71,6 +71,17 @@
  */
 
 #include "libbb.h"
+#ifdef OLD_ANDROID
+#include <sys/syscall.h>
+#define utimensat(fd, path, ts, flags)	\
+	syscall(__NR_utimensat, fd, path, ts, flags)
+#define futimens(fd, ts) syscall(__NR_utimensat, fd, NULL, ts, 0)
+#define UTIME_NOW	((1l << 30) - 1l)
+#define UTIME_OMIT	((1l << 30) - 2l)
+#else
+#define st_atime_nsec st_atim.tv_nsec
+#define st_mtime_nsec st_mtim.tv_nsec
+#endif
 
 int touch_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
 int touch_main(int argc UNUSED_PARAM, char **argv)
@@ -134,8 +145,8 @@ int touch_main(int argc UNUSED_PARAM, char **argv)
 		xstat(reference_file, &stbuf);
 		timebuf[0].tv_sec = stbuf.st_atime;
 		timebuf[1].tv_sec = stbuf.st_mtime;
-		timebuf[0].tv_nsec = stbuf.st_atim.tv_nsec;
-		timebuf[1].tv_nsec = stbuf.st_mtim.tv_nsec;
+		timebuf[0].tv_nsec = stbuf.st_atime_nsec;
+		timebuf[1].tv_nsec = stbuf.st_mtime_nsec;
 	}
 	if (opts & (OPT_d|OPT_t)) {
 		struct tm tm_time;

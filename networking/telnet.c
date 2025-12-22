@@ -69,13 +69,7 @@
 //usage:       "Connect to telnet server"
 //usage:#endif
 
-#include <arpa/telnet.h>
-#include <netinet/in.h>
-#include "libbb.h"
-#include "common_bufsiz.h"
-
-#ifdef __BIONIC__
-/* should be in arpa/telnet.h */
+#ifdef __ANDROID__
 # define IAC         255  /* interpret as command: */
 # define DONT        254  /* you are not to use option */
 # define DO          253  /* please, you use option */
@@ -87,7 +81,17 @@
 # define TELOPT_SGA    3  /* suppress go ahead */
 # define TELOPT_TTYPE 24  /* terminal type */
 # define TELOPT_NAWS  31  /* window size */
+# define TELOPT_NEW_ENVIRON 39   /* New - Environment variables */
+# define TELQUAL_IS      0       /* option is... */
+#define NEW_ENV_VAR     0
+#define NEW_ENV_VALUE   1
+#else
+#include <arpa/telnet.h>
 #endif
+
+#include <netinet/in.h>
+#include "libbb.h"
+#include "common_bufsiz.h"
 
 enum {
 	DATABUFSIZE = 128,

@@ -15,8 +15,28 @@
 
 //kbuild:lib-$(CONFIG_SETFATTR) += setfattr.o
 
-#include <sys/xattr.h>
+#include <unistd.h>
 #include "libbb.h"
+#ifdef OLD_ANDROID
+#include <sys/syscall.h>
+#include <linux/xattr.h>
+static ssize_t setxattr(const char *path, const char *name,
+		const void *value, size_t size, int flags) {
+	return syscall(__NR_setxattr, path, name, value, size, flags);
+}
+static ssize_t lsetxattr(const char *path, const char *name,
+		const void *value, size_t size, int flags) {
+	return syscall(__NR_lsetxattr, path, name, value, size, flags);
+}
+static ssize_t removexattr(const char *path, const char *name) {
+	return syscall(__NR_removexattr, path, name);
+}
+static ssize_t lremovexattr(const char *path, const char *name) {
+	return syscall(__NR_lremovexattr, path, name);
+}
+#else
+#include <sys/xattr.h>
+#endif
 
 //usage:#define setfattr_trivial_usage
 //usage:       "[-h] -n|-x ATTR [-v VALUE] FILE..."

@@ -59,6 +59,11 @@
 #include <sched.h>
 #include "libbb.h"
 
+#ifdef OLD_ANDROID
+#define sched_setaffinity(pid, size, mask)	\
+	syscall(__NR_sched_setaffinity, pid, size, mask)
+#endif
+
 typedef unsigned long ul;
 #define SZOF_UL (unsigned)(sizeof(ul))
 #define BITS_UL (unsigned)(sizeof(ul)*8)

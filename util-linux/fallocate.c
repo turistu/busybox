@@ -71,6 +71,10 @@
 
 #include "libbb.h"
 
+#ifdef OLD_ANDROID
+#define fallocate(...)	syscall(__NR_fallocate, __VA_ARGS__)
+#endif
+
 int fallocate_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
 int fallocate_main(int argc UNUSED_PARAM, char **argv)
 {
@@ -93,7 +97,7 @@ int fallocate_main(int argc UNUSED_PARAM, char **argv)
 
 	/* posix_fallocate has unusual method of returning error */
 	/* maybe use Linux-specific fallocate(int fd, int mode, off_t offset, off_t len) instead? */
-	if ((errno = posix_fallocate(fd, ofs, len)) != 0)
+	if (fallocate(fd, 0, ofs, len))
 		bb_perror_msg_and_die("fallocate '%s'", *argv);
 
 	/* util-linux also performs fsync(fd); */

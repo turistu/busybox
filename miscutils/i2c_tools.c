@@ -66,6 +66,12 @@
 #include "libbb.h"
 
 #include <linux/i2c.h>
+	#ifndef I2C_SMBUS_I2C_BLOCK_BROKEN
+#define I2C_SMBUS_I2C_BLOCK_BROKEN 6
+#endif
+#ifndef I2C_FUNC_SMBUS_PEC
+	#define I2C_FUNC_SMBUS_PEC 0x00000008
+#endif
 
 #define I2CDUMP_NUM_REGS		256
 

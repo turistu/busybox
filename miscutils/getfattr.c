@@ -16,8 +16,27 @@
 //kbuild:lib-$(CONFIG_GETFATTR) += getfattr.o
 
 #include <stdio.h>
-#include <sys/xattr.h>
 #include "libbb.h"
+#ifdef OLD_ANDROID
+#include <sys/syscall.h>
+#include <linux/xattr.h>
+static ssize_t getxattr(const char *path, const char *name,
+		void *value, size_t size) {
+	return syscall(__NR_getxattr, path, name, value, size);
+}
+static ssize_t lgetxattr(const char *path, const char *name,
+		void *value, size_t size) {
+	return syscall(__NR_lgetxattr, path, name, value, size);
+}
+static ssize_t listxattr(const char *path, char *list, size_t size) {
+	return syscall(__NR_listxattr, path, list, size);
+}
+static ssize_t llistxattr(const char *path, char *list, size_t size) {
+	return syscall(__NR_llistxattr, path, list, size);
+}
+#else
+#include <sys/xattr.h>
+#endif
 
 //usage:#define getfattr_trivial_usage
 //usage:       "[-h] {-d|-n ATTR} FILE...\n"

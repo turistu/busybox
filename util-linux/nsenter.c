@@ -53,6 +53,9 @@
 #endif
 
 #include "libbb.h"
+#ifdef OLD_ANDROID
+#define setns(fd, type)	syscall(__NR_setns, fd, type)
+#endif
 
 struct namespace_descr {
 	int flag;		/* value passed to setns() */

@@ -36,9 +36,12 @@
 #include <net/if.h>
 #include <netinet/ether.h>
 #include <netpacket/packet.h>
-
 #include "libbb.h"
 #include "common_bufsiz.h"
+
+#ifdef OLD_ANDROID
+#include <linux/if_arp.h>
+#endif
 
 /* We don't expect to see 1000+ seconds delay, unsigned is enough */
 #define MONOTONIC_US() ((unsigned)monotonic_us())

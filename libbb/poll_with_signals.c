@@ -8,7 +8,17 @@
  */
 //kbuild:lib-y += poll_with_signals.o
 
+#include <poll.h>
 #include "libbb.h"
+#ifdef OLD_ANDROID
+#include <sys/syscall.h>
+#include <sys/time.h>
+static int ppoll(struct pollfd *fds, long nfds, const struct timespec *ts,
+                 const void *sigmask){
+	struct timespec tc = {0}; if(ts){ tc = *ts; ts = &tc; }
+	return syscall(__NR_ppoll, fds, nfds, ts, sigmask, sizeof(long));
+}
+#endif
 
 /* Shells, for example, need their line input and "read" builtin
  * to be interruptible, and the naive handling of it a-la:

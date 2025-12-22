@@ -275,7 +275,7 @@ int nslookup_main(int argc, char **argv)
  */
 #define USE_LIBC_RESOLV 1
 
-#if USE_LIBC_RESOLV
+#if 0 /* USE_LIBC_RESOLV */
 
 #include <resolv.h>
 

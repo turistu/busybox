@@ -130,7 +130,27 @@
 # define TELCMDS
 # define TELOPTS
 #endif
+#ifdef __ANDROID__
+# define IAC         255  /* interpret as command: */
+# define DONT        254  /* you are not to use option */
+# define DO          253  /* please, you use option */
+# define WONT        252  /* I won't use option */
+# define WILL        251  /* I will use option */
+# define SB          250  /* interpret as subnegotiation */
+# define SE          240  /* end sub negotiation */
+# define NOP         241  /* nop */
+# define AYT         246  /* are you there */
+# define TELOPT_ECHO   1  /* echo */
+# define TELOPT_SGA    3  /* suppress go ahead */
+# define TELOPT_TTYPE 24  /* terminal type */
+# define TELOPT_NAWS  31  /* window size */
+# define TELOPT_NEW_ENVIRON 39   /* New - Environment variables */
+# define TELQUAL_IS      0       /* option is... */
+#define NEW_ENV_VAR     0
+#define NEW_ENV_VALUE   1
+#else
 #include <arpa/telnet.h>
+#endif
 
 
 struct tsession {

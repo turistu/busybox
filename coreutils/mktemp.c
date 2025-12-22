@@ -59,6 +59,11 @@
 //usage:       "-rw-------    1 andersen andersen        0 Apr 25 17:10 /tmp/temp.mWiLjM\n"
 
 #include "libbb.h"
+#ifdef __ANDROID__
+#define TMPDIR	"/data/local/tmp"
+#else
+#define TMPDIR	"/tmp"
+#endif
 
 int mktemp_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
 int mktemp_main(int argc UNUSED_PARAM, char **argv)
@@ -77,7 +82,7 @@ int mktemp_main(int argc UNUSED_PARAM, char **argv)
 
 	path = getenv("TMPDIR");
 	if (!path || path[0] == '\0')
-		path = "/tmp";
+		path = TMPDIR;
 
 #if ENABLE_LONG_OPTS
 	opts = getopt32long(argv, "^"

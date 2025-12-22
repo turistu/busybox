@@ -32,6 +32,10 @@ enum { /* can't do this with preporcessor, IFA_MAX is an (enum - 1), not preproc
 # define IFA_MAX REAL_IFA_MAX
 #endif
 
+#ifdef OLD_ANDROID
+#define IFA_F_DADFAILED 0x08
+#endif
+
 struct filter_t {
 	char *label;
 	/* Flush cmd buf. If !NULL, print_addrinfo() constructs flush commands in it */

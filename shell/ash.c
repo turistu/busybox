@@ -255,7 +255,7 @@
 # define IF_BASH_PROCESS_SUBST(...)
 #endif
 
-#if defined(__ANDROID_API__) && __ANDROID_API__ <= 24
+#ifdef OLD_ANDROID
 /* Bionic at least up to version 24 has no glob() */
 # undef  ENABLE_ASH_INTERNAL_GLOB
 # define ENABLE_ASH_INTERNAL_GLOB 1

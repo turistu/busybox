@@ -261,7 +261,7 @@ void FAST_FUNC free_volume_id(struct volume_id *id)
 	if (id == NULL)
 		return;
 
-	//if (id->fd_close != 0) - always true
+	if (1) // (id->fd_close != 0) - always true
 		close(id->fd);
 	volume_id_free_buffer(id);
 #ifdef UNUSED_PARTITION_CODE

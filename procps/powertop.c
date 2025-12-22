@@ -170,7 +170,7 @@ static void read_cstate_counts(ullong *usage, ullong *duration)
 
 	while ((d = readdir(dir)) != NULL) {
 		FILE *fp;
-		char buf[192];
+		char buf[256];
 		int level;
 		int len;
 

@@ -122,7 +122,7 @@ static void reverse(unsigned opt, const char *filename, char *opt_s)
 				bb_error_msg_and_die("invalid number '%s'", p);
 			}
 			if (ofs != cur) {
-				if (fseeko(stdout, ofs, SEEK_SET) != 0) {
+				if (fseek(stdout, ofs, SEEK_SET) != 0) {
 					if (ofs < cur)
 						bb_simple_perror_msg_and_die("cannot seek");
 					write_zeros(ofs - cur);

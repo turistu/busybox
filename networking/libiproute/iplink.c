@@ -10,13 +10,19 @@
 #include <netpacket/packet.h>
 #include <netinet/if_ether.h>
 
+#include "ip_common.h"  /* #include "libbb.h" is inside */
+#include "rt_names.h"
+#include "utils.h"
+
+#ifdef OLD_ANDROID
+#undef ENABLE_FEATURE_IP_LINK_CAN
+#define ENABLE_FEATURE_IP_LINK_CAN	0
+#define IFLA_NET_NS_PID	19
+#endif
 #include <linux/if_vlan.h>
 #if ENABLE_FEATURE_IP_LINK_CAN
 # include <linux/can/netlink.h>
 #endif
-#include "ip_common.h"  /* #include "libbb.h" is inside */
-#include "rt_names.h"
-#include "utils.h"
 
 #undef  ETH_P_8021AD
 #define ETH_P_8021AD            0x88A8

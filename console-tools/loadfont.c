@@ -56,7 +56,7 @@
 //kbuild:lib-$(CONFIG_SETFONT) += loadfont.o
 
 #include "libbb.h"
-#include <sys/kd.h>
+#include <linux/kd.h>
 
 #ifndef KDFONTOP
 # define KDFONTOP 0x4B72

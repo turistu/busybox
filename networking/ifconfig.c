@@ -104,7 +104,11 @@
 # include <net/ethernet.h>
 #endif
 
-#if ENABLE_FEATURE_IFCONFIG_SLIP
+#ifdef OLD_ANDROID
+#undef ENABLE_FEATURE_IFCONFIG_SLIP
+#endif
+
+#ifdef ENABLE_FEATURE_IFCONFIG_SLIP
 # include <linux/if_slip.h>
 #endif
 
@@ -127,7 +131,7 @@
 # define IFF_DYNAMIC     0x8000	/* dialup device with changing addresses */
 #endif
 
-#if ENABLE_FEATURE_IPV6
+#if ENABLE_FEATURE_IPV6 && !defined(__ANDROID__)
 struct in6_ifreq {
 	struct in6_addr ifr6_addr;
 	uint32_t ifr6_prefixlen;

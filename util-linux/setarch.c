@@ -52,7 +52,11 @@
 //usage:#define linux64_full_usage ""
 
 #include "libbb.h"
+#ifdef OLD_ANDROID
+#include <linux/personality.h>
+#else
 #include <sys/personality.h>
+#endif
 
 #ifndef ADDR_NO_RANDOMIZE
 # define ADDR_NO_RANDOMIZE       0x0040000

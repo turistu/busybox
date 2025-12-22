@@ -108,9 +108,16 @@
 #include "libbb.h"
 #include <math.h>
 #include <netinet/ip.h> /* For IPTOS_DSCP_AF21 definition */
-#include <sys/timex.h>
 #ifndef IPTOS_DSCP_AF21
 # define IPTOS_DSCP_AF21 0x48
+#endif
+
+#if __ANDROID__
+#include <sys/syscall.h>
+#include <linux/timex.h>
+#define adjtimex(t)	syscall(__NR_adjtimex, t)
+#else
+#include <sys/timex.h>
 #endif
 
 #if defined(__FreeBSD__)

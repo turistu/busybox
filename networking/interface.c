@@ -53,6 +53,7 @@
 #define _PATH_PROCNET_DEV               "/proc/net/dev"
 #define _PATH_PROCNET_IFINET6           "/proc/net/if_inet6"
 
+#if !__BIONIC__
 #ifdef HAVE_AFINET6
 # ifndef _LINUX_IN6_H
 /*
@@ -65,6 +66,7 @@ struct in6_ifreq {
 };
 # endif
 #endif /* HAVE_AFINET6 */
+#endif
 
 /* Defines for glibc2.0 users. */
 #ifndef SIOCSIFTXQLEN

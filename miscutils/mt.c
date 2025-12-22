@@ -27,7 +27,7 @@
 //usage:       "setpart tell unload unlock weof wset"
 
 #include "libbb.h"
-#include <sys/mtio.h>
+#include <linux/mtio.h>
 
 /* missing: eod/seod, stoptions, stwrthreshold, densities */
 static const short opcode_value[] ALIGN2 = {

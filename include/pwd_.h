@@ -38,6 +38,16 @@ PUSH_AND_SET_FUNCTION_VISIBILITY_TO_HIDDEN
 #define getpwnam    bb_internal_getpwnam
 #define getpwnam_r  bb_internal_getpwnam_r
 
+#ifdef OLD_ANDROID
+struct bb_passwd {
+	char *pw_name, *pw_passwd;
+	uid_t pw_uid;
+	gid_t pw_gid;
+	char *pw_gecos, *pw_dir, *pw_shell;
+};
+#define passwd bb_passwd
+#endif
+
 /* All function names below should be remapped by #defines above
  * in order to not collide with libc names. */
 

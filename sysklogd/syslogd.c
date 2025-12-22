@@ -184,6 +184,17 @@
 #include <sys/shm.h>
 #endif
 
+#ifdef __ANDROID__
+#include <sys/syscall.h>
+#define semop(...)	syscall(__NR_semop, __VA_ARGS__)
+#define semget(...)	syscall(__NR_semget, __VA_ARGS__)
+#define shmat(...)	((void*)syscall(__NR_shmat, __VA_ARGS__))
+#define shmget(...)	syscall(__NR_shmget, __VA_ARGS__)
+#define semctl(...)	syscall(__NR_semctl, __VA_ARGS__)
+#define shmctl(...)	syscall(__NR_shmctl, __VA_ARGS__)
+#define shmdt(...)	syscall(__NR_shmdt, __VA_ARGS__)
+#endif
+
 
 #define DEBUG 0
 

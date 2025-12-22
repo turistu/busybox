@@ -33,8 +33,11 @@
 //usage:       "$ chrt -f -p 3 $x\n"
 //usage:       "You need CAP_SYS_NICE privileges to set scheduling attributes of a process"
 
-#include <sched.h>
 #include "libbb.h"
+#include <sched.h>
+#ifdef OLD_ANDROID
+#include <linux/sched.h>
+#endif
 #ifndef SCHED_IDLE
 # define SCHED_IDLE 5
 #endif

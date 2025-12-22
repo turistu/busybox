@@ -348,6 +348,9 @@
 
 //kbuild:lib-$(CONFIG_SHELL_HUSH) += hush.o match.o shell_common.o
 //kbuild:lib-$(CONFIG_HUSH_RANDOM_SUPPORT) += random.o
+//kbuild:ifneq (,$(findstring android, $(CROSS_COMPILE)))
+//kbuild:lib-$(CONFIG_HUSH) += glob/glob.o
+//kbuild:endif
 
 /* -i (interactive) is also accepted,
  * but does nothing, therefore not shown in help.
@@ -364,7 +367,12 @@
     )
 # include <malloc.h>   /* for malloc_trim */
 #endif
+#ifdef __BIONIC__
+#include <string.h>
+#include "glob/glob.h"
+#else
 #include <glob.h>
+#endif
 /* #include <dmalloc.h> */
 #if ENABLE_HUSH_CASE
 # include <fnmatch.h>

@@ -17,6 +17,22 @@ extern int capget(cap_user_header_t header, const cap_user_data_t data);
 // This way, libcap needs not be installed in build environment.
 #include "libbb.h"
 
+#ifndef _LINUX_CAPABILITY_VERSION_1
+#define _LINUX_CAPABILITY_VERSION_1	0x19980330
+#define _LINUX_CAPABILITY_VERSION_2	0x20071026
+#define _LINUX_CAPABILITY_VERSION_3	0x20080522
+#define _LINUX_CAPABILITY_U32S_1	1
+#define _LINUX_CAPABILITY_U32S_2	2
+#define _LINUX_CAPABILITY_U32S_3	3
+#endif
+#ifndef cap_valid
+/*
+#define CAP_CHECKPOINT_RESTORE  40
+#define CAP_LAST_CAP         CAP_CHECKPOINT_RESTORE
+*/
+#define cap_valid(x) ((x) >= 0 && (x) <= 40)
+#endif
+
 static const char *const capabilities[] ALIGN_PTR = {
 	"chown",
 	"dac_override",

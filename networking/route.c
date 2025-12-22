@@ -40,6 +40,10 @@
 #include "libbb.h"
 #include "inet_common.h"
 
+#ifdef OLD_ANDROID
+#undef ENABLE_FEATURE_IPV6
+#endif
+
 
 #ifndef RTF_UP
 /* Keep this in sync with /usr/src/linux/include/linux/route.h */

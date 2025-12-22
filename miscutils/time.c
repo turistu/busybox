@@ -33,11 +33,9 @@
 
 #include "libbb.h"
 
-#ifndef HAVE_WAIT3
-static pid_t wait3(int *status, int options, struct rusage *rusage)
-{
-	return wait4(-1, status, options, rusage);
-}
+#ifdef __ANDROID__
+#include <sys/syscall.h>
+#define wait3(...)	syscall(__NR_wait4, -1, __VA_ARGS__)
 #endif
 
 /* Information on the resources used by a child process.  */

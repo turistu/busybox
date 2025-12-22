@@ -33,10 +33,12 @@
 //usage:     "\n	-p TCONST"
 
 #include "libbb.h"
-#ifdef __BIONIC__
-# include <linux/timex.h>
+#if __ANDROID__
+#include <sys/syscall.h>
+#include <linux/timex.h>
+#define adjtimex(t)	syscall(__NR_adjtimex, t)
 #else
-# include <sys/timex.h>
+#include <sys/timex.h>
 #endif
 
 static const uint16_t statlist_bit[] ALIGN2 = {

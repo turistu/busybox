@@ -60,9 +60,11 @@ CFLAGS += $(call cc-option,-fno-guess-branch-probability,)
 CFLAGS += $(call cc-option,-funsigned-char,)
 
 ifeq ($(CONFIG_STATIC_LIBGCC),y)
+ifneq ($(lastword $(subst -, ,$(CC))),clang)
 # Disable it, for example, if you get
 # "clang-9: warning: argument unused during compilation: '-static-libgcc'"
 CFLAGS += $(call cc-option,-static-libgcc,)
+endif
 endif
 
 CFLAGS += $(call cc-option,-falign-functions=1,)
@@ -80,6 +82,7 @@ CFLAGS += $(call cc-option,-fno-builtin-printf,)
 
 # clang-9 does not like "str" + N and "if (CONFIG_ITEM && cond)" constructs
 ifeq ($(lastword $(subst -, ,$(CC))),clang)
+CFLAGS += -Wno-string-plus-int
 CFLAGS += $(call cc-option,-Wno-string-plus-int -Wno-constant-logical-operand)
 endif
 
@@ -186,10 +189,10 @@ endif
 
 ifeq ($(CONFIG_FEATURE_NSLOOKUP_BIG),y)
 ifneq (,$(findstring linux,$(shell $(CC) $(CFLAGS) -dumpmachine)))
-LDLIBS += resolv
+# LDLIBS += resolv
 endif
 ifneq (,$(findstring gnu,$(shell $(CC) $(CFLAGS) -dumpmachine)))
-LDLIBS += resolv
+# LDLIBS += resolv
 endif
 endif
 

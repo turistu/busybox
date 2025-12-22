@@ -98,9 +98,18 @@
 //usage:       "/dev/sda3             17381728  17107080    274648      98% /\n"
 
 #include <mntent.h>
-#include <sys/statvfs.h>
 #include "libbb.h"
 #include "unicode.h"
+#ifdef OLD_ANDROID
+#include <sys/syscall.h>
+#include <sys/statfs.h>
+#define statvfs statfs
+int statfs(const char *path, struct statfs *buf){
+	return syscall(__NR_statfs64, path, buf);
+}
+#else
+#include <sys/statvfs.h>
+#endif
 
 #if !ENABLE_FEATURE_HUMAN_READABLE
 static unsigned long kscale(unsigned long b, unsigned long bs)

@@ -530,30 +530,24 @@ typedef unsigned smalluint;
 #endif
 
 #if defined(ANDROID) || defined(__ANDROID__)
-# if __ANDROID_API__ < 8
-   /* ANDROID < 8 has no [f]dprintf at all */
-#  undef HAVE_DPRINTF
-# elif __ANDROID_API__ < 21
-   /* ANDROID < 21 has fdprintf */
-#  define dprintf fdprintf
-# else
-   /* ANDROID >= 21 has standard dprintf */
-# endif
 # if __ANDROID_API__ < 21
 #  undef HAVE_TTYNAME_R
 #  undef HAVE_GETLINE
 #  undef HAVE_STPCPY
 #  undef HAVE_STPNCPY
+#  undef HAVE_DPRINTF
+#  define OLD_ANDROID
 # endif
-# if __ANDROID_API__ >= 21
-#  undef HAVE_WAIT3
-# endif
+# undef HAVE_WAIT3
 # undef HAVE_MEMPCPY
 # undef HAVE_STRCHRNUL
 # undef HAVE_STRVERSCMP
 # undef HAVE_UNLOCKED_LINE_OPS
 # undef HAVE_NET_ETHERNET_H
 # undef HAVE_PRINTF_PERCENTM
+
+#undef HAVE_SETBIT
+#undef HAVE_GETBIT
 #endif
 
 /*
@@ -636,6 +630,23 @@ extern int vasprintf(char **string_ptr, const char *format, va_list p) FAST_FUNC
 # include <stdio.h> /* for FILE */
 # include <sys/types.h> /* size_t */
 extern ssize_t getline(char **lineptr, size_t *n, FILE *stream) FAST_FUNC;
+#endif
+
+#ifdef __ANDROID__
+void setusershell(void);
+void endusershell(void);
+char *getusershell(void);
+int sethostname(const char *name, size_t len);
+int sigtimedwait(const sigset_t *set, siginfo_t *info,
+	const struct timespec *timeout);
+int sigisemptyset(sigset_t *set);
+
+#include <stdio.h>
+FILE *setmntent(const char *fn, const char *type);
+struct mntent *getmntent_r(FILE* fp, struct mntent* m, char *b, int z);
+struct mntent *getmntent(FILE* fp);
+int endmntent(FILE *fp);
+int addmntent(FILE *restrict stream, const struct mntent *restrict mnt);
 #endif
 
 #endif

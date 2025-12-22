@@ -122,6 +122,20 @@ enum {
 	OPT_NNP  = (1 << OPTBIT_NNP),
 };
 
+#ifndef CAP_TO_INDEX
+#define CAP_TO_INDEX(x) ((x) >> 5)
+#endif
+#ifndef CAP_TO_MASK
+#define CAP_TO_MASK(x) (1 << ((x) & 31))
+#endif
+#ifndef cap_valid
+/*
+#define CAP_CHECKPOINT_RESTORE  40
+#define CAP_LAST_CAP         CAP_CHECKPOINT_RESTORE
+*/
+#define cap_valid(x) ((x) >= 0 && (x) <= 40)
+#endif
+
 #if ENABLE_FEATURE_SETPRIV_CAPABILITIES
 DEFINE_STRUCT_CAPS;
 

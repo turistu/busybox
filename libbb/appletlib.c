@@ -28,7 +28,7 @@
 
 /* Define this accessor before we #define "errno" our way */
 #include <errno.h>
-static inline int *get_perrno(void) { return &errno; }
+static volatile inline int *get_perrno(void) { return &errno; }
 
 #include "busybox.h"
 
