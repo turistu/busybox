@@ -5,14 +5,14 @@
  * Licensed under GPLv2, see file LICENSE in this source tree.
  */
 //kbuild:ifneq (,$(findstring android, $(CROSS_COMPILE)))
-//kbuild:lib-$(CONFIG_UDHCPC6) += musl/getifaddrs.o musl/netlink.o
+//kbuild:lib-$(CONFIG_UDHCPC6) += ../../musl/getifaddrs.o ../../musl/netlink.o
 //kbuild:endif
 #include "common.h"
 #include "d6_common.h"
 #include <net/if.h>
 #include <netpacket/packet.h>
 #ifdef __ANDROID__
-#include "musl/ifaddrs.h"
+#include "../../musl/ifaddrs.h"
 #else
 #include <ifaddrs.h>
 #endif

@@ -822,7 +822,7 @@ skip(off_t n_skip)
 				n_skip -= file_stats.st_size;
 				/* take "check & close / open_next" route */
 			} else {
-				if (fseek(G.in_stream, n_skip, SEEK_CUR) != 0)
+				if (fseeko(G.in_stream, n_skip, SEEK_CUR) != 0)
 					G.exit_code = 1;
 				return;
 			}

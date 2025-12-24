@@ -70,9 +70,6 @@
 #endif
 
 #include "libbb.h"
-#ifdef OLD_ANDROID
-#define unshare(flags)	syscall(__NR_unshare, flags)
-#endif
 
 static void mount_or_die(const char *source, const char *target,
 		const char *fstype, unsigned long mountflags)

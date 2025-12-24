@@ -202,7 +202,7 @@ static void seek_ft(FILE_and_pos_t *ft, off_t pos)
 {
 	if (ft->ft_pos != pos) {
 		ft->ft_pos = pos;
-		fseek(ft->ft_fp, pos, SEEK_SET);
+		fseeko(ft->ft_fp, pos, SEEK_SET);
 	}
 }
 
@@ -465,7 +465,7 @@ static NOINLINE int *create_J(FILE_and_pos_t ft[2], int nlen[2], off_t *ix[2])
 		nfile[i] = xmalloc((sz + 3) * sizeof(nfile[i][0]));
 		/* ft gets here without the correct position, cant use seek_ft */
 		ft[i].ft_pos = 0;
-		fseek(ft[i].ft_fp, 0, SEEK_SET);
+		fseeko(ft[i].ft_fp, 0, SEEK_SET);
 
 		nlen[i] = 0;
 		/* We could zalloc nfile, but then zalloc starts showing in gprof at ~1% */

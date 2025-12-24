@@ -272,6 +272,7 @@ static struct mntent *getmntent_r(FILE* stream, struct mntent* result,
 }
 #endif
 
+
 // Not real flags, but we want to be able to check for this.
 enum {
 	MOUNT_USERS  = (1 << 27) * ENABLE_DESKTOP,

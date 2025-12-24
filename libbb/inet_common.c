@@ -166,11 +166,10 @@ int FAST_FUNC INET6_resolve(const char *name, struct sockaddr_in6 *sin6)
 	return 0;
 }
 
-#ifndef IN6_IS_ADDR_UNSPECIFIED
-# define IN6_IS_ADDR_UNSPECIFIED(a) \
-	(((uint32_t *) (a))[0] == 0 && ((uint32_t *) (a))[1] == 0 && \
-	 ((uint32_t *) (a))[2] == 0 && ((uint32_t *) (a))[3] == 0)
-#endif
+static int in6_is_addr_unspecified(void *v){
+	uint32_t *a = v;
+	return a[0] == 0 && a[1] == 0 && a[2] == 0 && a[3] == 0;
+}
 
 
 char* FAST_FUNC INET6_rresolve(struct sockaddr_in6 *sin6, int numeric)
@@ -184,7 +183,7 @@ char* FAST_FUNC INET6_rresolve(struct sockaddr_in6 *sin6, int numeric)
 	if (numeric & 0x7FFF) {
 		return xmalloc_sockaddr2dotted_noport((void*)sin6);
 	}
-	if (IN6_IS_ADDR_UNSPECIFIED(&sin6->sin6_addr)) {
+	if (in6_is_addr_unspecified(&sin6->sin6_addr)) {
 		if (numeric & 0x8000)
 			return xstrdup("default");
 		return xstrdup("*");

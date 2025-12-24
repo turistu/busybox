@@ -30,9 +30,10 @@
 //usage:       "Move the current root file system to PUT_OLD and make NEW_ROOT\n"
 //usage:       "the new root file system"
 
+#include <sys/syscall.h>
 #include "libbb.h"
 
-extern int pivot_root(const char *new_root, const char *put_old);
+#define pivot_root(...)	syscall(__NR_pivot_root, ## __VA_ARGS__)
 
 int pivot_root_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
 int pivot_root_main(int argc, char **argv)

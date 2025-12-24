@@ -636,7 +636,6 @@ extern ssize_t getline(char **lineptr, size_t *n, FILE *stream) FAST_FUNC;
 void setusershell(void);
 void endusershell(void);
 char *getusershell(void);
-int sethostname(const char *name, size_t len);
 int sigtimedwait(const sigset_t *set, siginfo_t *info,
 	const struct timespec *timeout);
 int sigisemptyset(sigset_t *set);
@@ -648,5 +647,27 @@ struct mntent *getmntent(FILE* fp);
 int endmntent(FILE *fp);
 int addmntent(FILE *restrict stream, const struct mntent *restrict mnt);
 #endif
+
+#include <sys/syscall.h>
+#define syncfs(...)	syscall(__NR_syncfs, ## __VA_ARGS__)
+#define sethostname(...)	syscall(__NR_sethostname, ## __VA_ARGS__)
+
+#ifdef OLD_ANDROID
+#define fdatasync(...)	syscall(__NR_fdatasync, ## __VA_ARGS__)
+#define getsid(...)	syscall(__NR_getsid, ## __VA_ARGS__)
+#define sched_getaffinity(...)	syscall(__NR_sched_getaffinity, ## __VA_ARGS__)
+#define sched_setaffinity(...)	syscall(__NR_sched_setaffinity, ## __VA_ARGS__)
+#define setsid(...)	syscall(__NR_setsid, ## __VA_ARGS__)
+#define sysinfo(...)	syscall(__NR_sysinfo, ## __VA_ARGS__)
+#define unshare(...)	syscall(__NR_unshare, ## __VA_ARGS__)
+#define setns(...)	syscall(__NR_setns, ## __VA_ARGS__)
+
+#define tcdrain(fd)	ioctl(fd, TCSBRK, 1)
+#define cfsetspeed(t, s)	(cfsetispeed(t, s), cfsetospeed(t, s))
+
+struct ether_addr * ether_aton_r (const char *asc, struct ether_addr * addr);
+#endif
+
+#define explicit_bzero	bzero
 
 #endif

@@ -39,11 +39,6 @@
 
 #include "libbb.h"
 
-#ifdef OLD_ANDROID
-#include <sys/syscall.h>
-#define fdatasync(fd)	syscall(__NR_fdatasync, fd)
-#endif
-
 int shred_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
 int shred_main(int argc UNUSED_PARAM, char **argv)
 {

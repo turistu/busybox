@@ -89,17 +89,6 @@ struct mntent *getmntent(FILE* fp) {
 	if(!b && !(b = malloc(4096))) return 0;
 	return getmntent_r(fp, &m, b, 4096);
 }
-#ifdef OLD_ANDROID
-int cfsetspeed(struct termios *ts, speed_t sp);
-int cfsetspeed(struct termios *ts, speed_t sp) {
-	cfsetispeed(ts, sp);
-	cfsetospeed(ts, sp);
-	return 0;
-}
-#endif
-int sysinfo(void *v) {
-	return syscall(__NR_sysinfo, v);
-}
 
 /*
  * Copyright (C) 2010 The Android Open Source Project
@@ -134,6 +123,9 @@ int sysinfo(void *v) {
 #include <sys/types.h>
 #include <netinet/if_ether.h>
 #include <ctype.h>
+
+struct ether_addr *
+ether_aton_r (const char *asc, struct ether_addr * addr);
 
 static inline int
 xdigit (char c) {
@@ -210,6 +202,9 @@ ether_aton_r (const char *asc, struct ether_addr * addr)
 #include <stdio.h>
 #include <sys/types.h>
 #include <netinet/if_ether.h>
+
+char *
+ether_ntoa_r (const struct ether_addr *addr, char * buf);
 
 /*
  * Convert Ethernet address to standard hex-digits-and-colons printable form.

@@ -40,14 +40,15 @@ struct node {
 struct globals {
 	struct node **nodes;
 	unsigned nodes_len;
-};
-#define G (*(struct globals*)bb_common_bufsiz1)
+} *globals;
 #define INIT_G() do { \
 	setup_common_bufsiz(); \
-	BUILD_BUG_ON(sizeof(G) > COMMON_BUFSIZE); \
-	G.nodes = NULL; \
-	G.nodes_len = 0; \
+	BUILD_BUG_ON(sizeof *globals > COMMON_BUFSIZE); \
+	globals = (void*)&bb_common_bufsiz1; \
+	globals->nodes = NULL; \
+	globals->nodes_len = 0; \
 } while (0)
+#define G (*globals)
 
 static struct node *
 get_node(const char *name)

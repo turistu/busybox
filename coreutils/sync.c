@@ -41,12 +41,6 @@
 
 #include "libbb.h"
 
-#ifdef __ANDROID__
-#include <sys/syscall.h>
-#define fdatasync(fd)	syscall(__NR_fdatasync, fd)
-#define syncfs(fd)	syscall(__NR_syncfs, fd)
-#endif
-
 /* This is a NOFORK applet. Be very careful! */
 
 #if ENABLE_FEATURE_SYNC_FANCY || ENABLE_FSYNC

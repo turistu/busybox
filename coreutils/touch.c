@@ -73,8 +73,7 @@
 #include "libbb.h"
 #ifdef OLD_ANDROID
 #include <sys/syscall.h>
-#define utimensat(fd, path, ts, flags)	\
-	syscall(__NR_utimensat, fd, path, ts, flags)
+#define utimensat(...)	syscall(__NR_utimensat, ## __VA_ARGS__)
 #define futimens(fd, ts) syscall(__NR_utimensat, fd, NULL, ts, 0)
 #define UTIME_NOW	((1l << 30) - 1l)
 #define UTIME_OMIT	((1l << 30) - 2l)

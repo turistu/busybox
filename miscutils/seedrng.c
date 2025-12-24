@@ -44,18 +44,14 @@
 #include <linux/random.h>
 #include <sys/file.h>
 
-/* Fix up glibc <= 2.24 not having getrandom() */
-#if defined(__GLIBC__) && __GLIBC__ == 2 && __GLIBC_MINOR__ <= 24 || defined __ANDROID__
-#include <sys/syscall.h>
-static ssize_t getrandom(void *buffer, size_t length, unsigned flags)
-{
-# if defined(__NR_getrandom)
-	return syscall(__NR_getrandom, buffer, length, flags);
-# else
-	errno = ENOSYS;
-	return -1;
-# endif
-}
+/* Fix up glibc <= 2.24 / android not having getrandom() */
+#if defined(__GLIBC__) && __GLIBC__ == 2 && __GLIBC_MINOR__ <= 24 || defined(__ANDROID__)
+	# if defined(__NR_getrandom)
+		#include <sys/syscall.h>
+		#define getrandom(...)	syscall(__NR_getrandom, ## __VA_ARGS__)
+	#else
+		#define getrandom(...)	(errno = ENOSYS, -1)
+	# endif
 #else
 #include <sys/random.h>
 #endif

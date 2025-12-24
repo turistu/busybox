@@ -219,7 +219,7 @@ static void salsa20(salsa20_blk_t *restrict B,
 	}
 #if 0
 	/* Too expensive */
-	bzero(&X, sizeof(X));
+	explicit_bzero(&X, sizeof(X));
 #endif
 }
 
@@ -1136,7 +1136,7 @@ static int yescrypt_kdf32_body(
 		}
 	}
 
-	bzero(&u, sizeof(u));
+	explicit_bzero(&u, sizeof(u));
 
 	/* Success! */
 	return 0;
@@ -1205,7 +1205,7 @@ int yescrypt_kdf32(
 			passwd, passwdlen,
 			flags, N, t, buf32);
 
-	bzero(dk32, sizeof(dk32));
+	explicit_bzero(dk32, sizeof(dk32));
 
 	dbg("yescrypt_kdf32_body:%d", retval);
 	return retval;

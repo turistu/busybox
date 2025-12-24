@@ -9,11 +9,6 @@
 #include <sched.h>
 #include "libbb.h"
 
-#ifdef OLD_ANDROID
-#define sched_getaffinity(pid, size, mask)	\
-	syscall(__NR_sched_getaffinity, pid, size, mask)
-#endif
-
 unsigned long* FAST_FUNC get_malloc_cpu_affinity(int pid, unsigned *sz)
 {
 	unsigned long *mask = NULL;

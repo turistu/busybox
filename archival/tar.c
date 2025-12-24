@@ -398,8 +398,8 @@ static int writeTarHeader(struct TarBallInfo *tbInfo,
 			*p8 |= 0x80;
 		} else {
 			bb_error_msg_and_die("can't store file '%s' "
-				"of size %"OFF_FMT"u, aborting",
-				fileName, statbuf->st_size);
+				"of size %llu, aborting",
+				fileName, (unsigned long long)statbuf->st_size);
 		}
 		header.typeflag = REGTYPE;
 	} else {

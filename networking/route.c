@@ -40,8 +40,9 @@
 #include "libbb.h"
 #include "inet_common.h"
 
-#ifdef OLD_ANDROID
+#ifdef OLD_ANDROID	/* XXX */
 #undef ENABLE_FEATURE_IPV6
+#define ENABLE_FEATURE_IPV6	0
 #endif
 
 
