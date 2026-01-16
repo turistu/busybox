@@ -112,7 +112,7 @@
 # define IPTOS_DSCP_AF21 0x48
 #endif
 
-#if __ANDROID__
+#ifdef __ANDROID__
 #include <sys/syscall.h>
 #include <linux/timex.h>
 #define adjtimex(t)	syscall(__NR_adjtimex, t)
